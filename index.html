@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบฟอร์มบทคัดย่องานวิจัย</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', 'TH SarabunPSK', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .form-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .add-btn:hover {
+            background: #218838;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: background 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .dynamic-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .dynamic-input input,
+        .dynamic-input textarea {
+            flex: 1;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-save {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-preview {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-preview:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .btn-export {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-export:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .output-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .output-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .output-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        .keywords-input {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .sub-label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 แบบฟอร์มบทคัดย่องานวิจัย</h1>
+
+        <form id="researchForm">
+            <!-- Section 1 -->
+            <div class="form-section">
+                <h3>1. งานวิจัยนี้มีวัตถุประสงค์เพื่อศึกษา</h3>
+                <div id="objectives">
+                    <div class="dynamic-input">
+                        <input type="text" name="objective[]" placeholder="1.1 ระบุวัตถุประสงค์">
+                    </div>
+                    <div class="dynamic-input">
+                        <input type="text" name="objective[]" placeholder="1.2 ระบุวัตถุประสงค์">
+                    </div>
+                    <div class="dynamic-input">
+                        <input type="text" name="objective[]" placeholder="1.3 ระบุวัตถุประสงค์">
+                    </div>
+                </div>
+                <button type="button" class="add-btn" onclick="addObjective()">+ เพิ่มวัตถุประสงค์</button>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="form-section">
+                <h3>2. โดยใช้วิธีวิจัย</h3>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="method" value="เชิงปริมาณ"> เชิงปริมาณ
+                    </label>
+                    <label>
+                        <input type="checkbox" name="method" value="เชิงคุณภาพ"> เชิงคุณภาพ
+                    </label>
+                    <label>
+                        <input type="checkbox" name="method" value="เชิงผสมผสานวิธี"> เชิงผสมผสานวิธี
+                    </label>
+                </div>
+                <div id="additionalMethods"></div>
+                <button type="button" class="add-btn" onclick="addMethod()">+ เพิ่มวิธีวิจัย</button>
+            </div>
+
+            <!-- Section 3 -->
+            <div class="form-section">
+                <h3>3. ใช้เครื่องมือในการเก็บข้อมูล ได้แก่</h3>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="tool" value="แบบสัมภาษณ์"> แบบสัมภาษณ์
+                    </label>
+                    <label>
+                        <input type="checkbox" name="tool" value="แบบสอบถาม"> แบบสอบถาม
+                    </label>
+                    <label>
+                        <input type="checkbox" name="tool" value="แบบทดสอบ"> แบบทดสอบ
+                    </label>
+                    <label>
+                        <input type="checkbox" name="tool" value="แบบประเมิน"> แบบประเมิน
+                    </label>
+                    <label>
+                        <input type="checkbox" name="tool" value="แบบฟอร์มการสังเกต"> แบบฟอร์มการสังเกต
+                    </label>
+                </div>
+                <div id="additionalTools"></div>
+                <button type="button" class="add-btn" onclick="addTool()">+ เพิ่มเครื่องมือ</button>
+            </div>
+
+            <!-- Section 4 -->
+            <div class="form-section">
+                <h3>4. กลุ่มตัวอย่างหรือผู้ให้ข้อมูลได้แก่</h3>
+                <textarea name="sample" placeholder="ระบุกลุ่มตัวอย่างหรือผู้ให้ข้อมูล"></textarea>
+            </div>
+
+            <!-- Section 5 -->
+            <div class="form-section">
+                <h3>5. จำนวน</h3>
+                <input type="number" name="sampleSize" placeholder="ระบุจำนวน (ตัวเลข)">
+            </div>
+
+            <!-- Section 6 -->
+            <div class="form-section">
+                <h3>6. ผลการศึกษาพบว่า</h3>
+                <div id="findings">
+                    <div class="dynamic-input">
+                        <textarea name="finding[]" placeholder="6.1 ระบุผลการศึกษา"></textarea>
+                    </div>
+                    <div class="dynamic-input">
+                        <textarea name="finding[]" placeholder="6.2 ระบุผลการศึกษา"></textarea>
+                    </div>
+                    <div class="dynamic-input">
+                        <textarea name="finding[]" placeholder="6.3 ระบุผลการศึกษา"></textarea>
+                    </div>
+                </div>
+                <button type="button" class="add-btn" onclick="addFinding()">+ เพิ่มผลการศึกษา</button>
+            </div>
+
+            <!-- Section 7 -->
+            <div class="form-section">
+                <h3>7. ข้อเสนอแนะจากงานวิจัยนี้</h3>
+                <textarea name="recommendation" placeholder="ระบุข้อเสนอแนะ"></textarea>
+            </div>
+
+            <!-- Section 8 -->
+            <div class="form-section">
+                <h3>8. คำสำคัญ (Keywords)</h3>
+                <div class="keywords-input">
+                    <input type="text" name="keyword[]" placeholder="คำสำคัญที่ 1">
+                    <input type="text" name="keyword[]" placeholder="คำสำคัญที่ 2">
+                    <input type="text" name="keyword[]" placeholder="คำสำคัญที่ 3">
+                    <input type="text" name="keyword[]" placeholder="คำสำคัญที่ 4">
+                    <input type="text" name="keyword[]" placeholder="คำสำคัญที่ 5">
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button type="button" class="btn btn-save" onclick="saveData()">💾 บันทึกข้อมูล</button>
+                <button type="button" class="btn btn-preview" onclick="generatePreview()">👁️ นำเสนอข้อมูล</button>
+                <button type="button" class="btn btn-export" onclick="exportToWord()">📄 ส่งออกเป็น Word</button>
+                <button type="button" class="btn btn-reset" onclick="resetForm()">🔄 รีเซ็ตข้อมูล</button>
+            </div>
+        </form>
+
+        <!-- Output Section -->
+        <div id="outputSection" class="output-section">
+            <h2>📋 บทคัดย่อ (ภาษาไทย)</h2>
+            <div id="thaiAbstract" class="output-content"></div>
+
+            <h2>📋 Abstract (English)</h2>
+            <div id="englishAbstract" class="output-content"></div>
+        </div>
+    </div>
+
+    <script>
+        let objectiveCount = 3;
+        let findingCount = 3;
+
+        function addObjective() {
+            objectiveCount++;
+            const div = document.createElement('div');
+            div.className = 'dynamic-input';
+            div.innerHTML = `
+                <input type="text" name="objective[]" placeholder="1.${objectiveCount} ระบุวัตถุประสงค์">
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">ลบ</button>
+            `;
+            document.getElementById('objectives').appendChild(div);
+        }
+
+        function addMethod() {
+            const div = document.createElement('div');
+            div.className = 'dynamic-input';
+            div.innerHTML = `
+                <input type="text" name="additionalMethod[]" placeholder="ระบุวิธีวิจัยเพิ่มเติม">
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">ลบ</button>
+            `;
+            document.getElementById('additionalMethods').appendChild(div);
+        }
+
+        function addTool() {
+            const div = document.createElement('div');
+            div.className = 'dynamic-input';
+            div.innerHTML = `
+                <input type="text" name="additionalTool[]" placeholder="ระบุเครื่องมือเพิ่มเติม">
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">ลบ</button>
+            `;
+            document.getElementById('additionalTools').appendChild(div);
+        }
+
+        function addFinding() {
+            findingCount++;
+            const div = document.createElement('div');
+            div.className = 'dynamic-input';
+            div.innerHTML = `
+                <textarea name="finding[]" placeholder="6.${findingCount} ระบุผลการศึกษา"></textarea>
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">ลบ</button>
+            `;
+            document.getElementById('findings').appendChild(div);
+        }
+
+        function saveData() {
+            const formData = new FormData(document.getElementById('researchForm'));
+            localStorage.setItem('researchData', JSON.stringify(Object.fromEntries(formData)));
+            alert('✅ บันทึกข้อมูลเรียบร้อยแล้ว!');
+        }
+
+        function generatePreview() {
+            const form = document.getElementById('researchForm');
+            const formData = new FormData(form);
+
+            // Collect objectives
+            const objectives = Array.from(form.querySelectorAll('input[name="objective[]"]'))
+                .map(input => input.value.trim())
+                .filter(val => val);
+
+            // Collect methods
+            const methods = Array.from(form.querySelectorAll('input[name="method"]:checked'))
+                .map(cb => cb.value);
+            const additionalMethods = Array.from(form.querySelectorAll('input[name="additionalMethod[]"]'))
+                .map(input => input.value.trim())
+                .filter(val => val);
+            const allMethods = [...methods, ...additionalMethods];
+
+            // Collect tools
+            const tools = Array.from(form.querySelectorAll('input[name="tool"]:checked'))
+                .map(cb => cb.value);
+            const additionalTools = Array.from(form.querySelectorAll('input[name="additionalTool[]"]'))
+                .map(input => input.value.trim())
+                .filter(val => val);
+            const allTools = [...tools, ...additionalTools];
+
+            // Collect findings
+            const findings = Array.from(form.querySelectorAll('textarea[name="finding[]"]'))
+                .map(textarea => textarea.value.trim())
+                .filter(val => val);
+
+            // Collect keywords
+            const keywords = Array.from(form.querySelectorAll('input[name="keyword[]"]'))
+                .map(input => input.value.trim())
+                .filter(val => val);
+
+            const sample = form.querySelector('textarea[name="sample"]').value.trim();
+            const sampleSize = form.querySelector('input[name="sampleSize"]').value.trim();
+            const recommendation = form.querySelector('textarea[name="recommendation"]').value.trim();
+
+            // Generate Thai abstract
+            let thaiText = '';
+            
+            if (objectives.length > 0) {
+                thaiText += 'งานวิจัยนี้มีวัตถุประสงค์เพื่อศึกษา ';
+                thaiText += objectives.join(' ') + ' ';
+            }
+
+            if (allMethods.length > 0) {
+                thaiText += 'โดยใช้วิธีวิจัย' + allMethods.join(' ') + ' ';
+            }
+
+            if (allTools.length > 0) {
+                thaiText += 'ใช้เครื่องมือในการเก็บข้อมูล ได้แก่ ' + allTools.join(' ') + ' ';
+            }
+
+            if (sample) {
+                thaiText += 'กลุ่มตัวอย่างหรือผู้ให้ข้อมูลได้แก่ ' + sample + ' ';
+            }
+
+            if (sampleSize) {
+                thaiText += 'จำนวน ' + sampleSize + ' คน ';
+            }
+
+            if (findings.length > 0) {
+                thaiText += 'ผลการศึกษาพบว่า ' + findings.join(' ') + ' ';
+            }
+
+            if (recommendation) {
+                thaiText += 'ข้อเสนอแนะจากงานวิจัยนี้ คือ ' + recommendation + ' ';
+            }
+
+            if (keywords.length > 0) {
+                thaiText += '\n\nคำสำคัญ: ' + keywords.join(', ');
+            }
+
+            document.getElementById('thaiAbstract').innerText = thaiText || 'กรุณากรอกข้อมูลในฟอร์ม';
+
+            // Generate English abstract (simple translation - in real use, you'd call a translation API)
+            translateToEnglish(thaiText);
+
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function translateToEnglish(thaiText) {
+            // This is a placeholder. In production, you would call a translation API
+            // For demonstration, showing a sample translation
+            const englishText = `This research aims to study [objectives]. Using [research methods] methodology, data collection tools include [tools]. The sample group or informants consist of [sample], totaling [number] participants. The study found that [findings]. Recommendations from this research include [recommendations].
+
+Keywords: [keywords]`;
+            
+            document.getElementById('englishAbstract').innerText = 'Note: For actual English translation, please integrate with a translation API service like Google Translate API or Claude API.\n\n' + englishText;
+        }
+
+        function exportToWord() {
+            const thaiAbstract = document.getElementById('thaiAbstract').innerText;
+            const englishAbstract = document.getElementById('englishAbstract').innerText;
+
+            if (!thaiAbstract || thaiAbstract === 'กรุณากรอกข้อมูลในฟอร์ม') {
+                alert('กรุณานำเสนอข้อมูลก่อนส่งออก');
+                return;
+            }
+
+            const htmlContent = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head><meta charset='utf-8'><title>บทคัดย่องานวิจัย</title></head>
+                <body>
+                    <h2>บทคัดย่อ (ภาษาไทย)</h2>
+                    <p style="text-align: justify; line-height: 1.8;">${thaiAbstract.replace(/\n/g, '<br>')}</p>
+                    <br><br>
+                    <h2>Abstract (English)</h2>
+                    <p style="text-align: justify; line-height: 1.8;">${englishAbstract.replace(/\n/g, '<br>')}</p>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob(['\ufeff', htmlContent], {
+                type: 'application/msword'
+            });
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'บทคัดย่องานวิจัย.doc';
+            link.click();
+            URL.revokeObjectURL(url);
+
+            alert('✅ ส่งออกไฟล์ Word เรียบร้อยแล้ว!');
+        }
+
+        function resetForm() {
+            if (confirm('⚠️ คุณต้องการรีเซ็ตข้อมูลทั้งหมดใช่หรือไม่?')) {
+                document.getElementById('researchForm').reset();
+                document.getElementById('outputSection').style.display = 'none';
+                
+                // Reset dynamic fields to initial state
+                document.getElementById('objectives').innerHTML = `
+                    <div class="dynamic-input">
+                        <input type="text" name="objective[]" placeholder="1.1 ระบุวัตถุประสงค์">
+                    </div>
+                    <div class="dynamic-input">
+                        <input type="text" name="objective[]" placeholder="1.2 ระบุวัตถุประสงค์">
+                    </div>
+                    <div class="dynamic-input">
+                        <input type="text" name="objective[]" placeholder="1.3 ระบุวัตถุประสงค์">
+                    </div>
+                `;
+                
+                document.getElementById('findings').innerHTML = `
+                    <div class="dynamic-input">
+                        <textarea name="finding[]" placeholder="6.1 ระบุผลการศึกษา"></textarea>
+                    </div>
+                    <div class="dynamic-input">
+                        <textarea name="finding[]" placeholder="6.2 ระบุผลการศึกษา"></textarea>
+                    </div>
+                    <div class="dynamic-input">
+                        <textarea name="finding[]" placeholder="6.3 ระบุผลการศึกษา"></textarea>
+                    </div>
+                `;
+                
+                document.getElementById('additionalMethods').innerHTML = '';
+                document.getElementById('additionalTools').innerHTML = '';
+                
+                objectiveCount = 3;
+                findingCount = 3;
+                
+                alert('✅ รีเซ็ตข้อมูลเรียบร้อยแล้ว!');
+            }
+        }
+    </script>
+</body>
+</html>
