@@ -310,6 +310,18 @@
                 <input type="number" name="sampleSize" placeholder="ระบุจำนวน (ตัวเลข)">
             </div>
 
+            <!-- Section 5.1 - วิธีวิเคราะห์ข้อมูล -->
+            <div class="form-section">
+                <h3>วิธีวิเคราะห์ข้อมูล</h3>
+                <textarea name="dataAnalysis" placeholder="ระบุวิธีวิเคราะห์ข้อมูล"></textarea>
+            </div>
+
+            <!-- Section 5.2 - สถิติที่ใช้ในการวิจัย -->
+            <div class="form-section">
+                <h3>สถิติที่ใช้ในการวิจัย</h3>
+                <textarea name="statistics" placeholder="ระบุสถิติที่ใช้ในการวิจัย"></textarea>
+            </div>
+
             <!-- Section 6 -->
             <div class="form-section">
                 <h3>6. ผลการศึกษาพบว่า</h3>
@@ -356,11 +368,8 @@
 
         <!-- Output Section -->
         <div id="outputSection" class="output-section">
-            <h2>📋 บทคัดย่อ (ภาษาไทย)</h2>
+            <h2>📋 บทคัดย่อ</h2>
             <div id="thaiAbstract" class="output-content"></div>
-
-            <h2>📋 Abstract (English)</h2>
-            <div id="englishAbstract" class="output-content"></div>
         </div>
     </div>
 
@@ -453,6 +462,8 @@
 
             const sample = form.querySelector('textarea[name="sample"]').value.trim();
             const sampleSize = form.querySelector('input[name="sampleSize"]').value.trim();
+            const dataAnalysis = form.querySelector('textarea[name="dataAnalysis"]').value.trim();
+            const statistics = form.querySelector('textarea[name="statistics"]').value.trim();
             const recommendation = form.querySelector('textarea[name="recommendation"]').value.trim();
 
             // Generate Thai abstract
@@ -479,6 +490,14 @@
                 thaiText += 'จำนวน ' + sampleSize + ' คน ';
             }
 
+            if (dataAnalysis) {
+                thaiText += 'วิธีวิเคราะห์ข้อมูล ' + dataAnalysis + ' ';
+            }
+
+            if (statistics) {
+                thaiText += 'สถิติที่ใช้ในการวิจัย ' + statistics + ' ';
+            }
+
             if (findings.length > 0) {
                 thaiText += 'ผลการศึกษาพบว่า ' + findings.join(' ') + ' ';
             }
@@ -493,26 +512,12 @@
 
             document.getElementById('thaiAbstract').innerText = thaiText || 'กรุณากรอกข้อมูลในฟอร์ม';
 
-            // Generate English abstract (simple translation - in real use, you'd call a translation API)
-            translateToEnglish(thaiText);
-
             document.getElementById('outputSection').style.display = 'block';
             document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        async function translateToEnglish(thaiText) {
-            // This is a placeholder. In production, you would call a translation API
-            // For demonstration, showing a sample translation
-            const englishText = `This research aims to study [objectives]. Using [research methods] methodology, data collection tools include [tools]. The sample group or informants consist of [sample], totaling [number] participants. The study found that [findings]. Recommendations from this research include [recommendations].
-
-Keywords: [keywords]`;
-            
-            document.getElementById('englishAbstract').innerText = 'Note: For actual English translation, please integrate with a translation API service like Google Translate API or Claude API.\n\n' + englishText;
-        }
-
         function exportToWord() {
             const thaiAbstract = document.getElementById('thaiAbstract').innerText;
-            const englishAbstract = document.getElementById('englishAbstract').innerText;
 
             if (!thaiAbstract || thaiAbstract === 'กรุณากรอกข้อมูลในฟอร์ม') {
                 alert('กรุณานำเสนอข้อมูลก่อนส่งออก');
@@ -523,11 +528,8 @@ Keywords: [keywords]`;
                 <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
                 <head><meta charset='utf-8'><title>บทคัดย่องานวิจัย</title></head>
                 <body>
-                    <h2>บทคัดย่อ (ภาษาไทย)</h2>
+                    <h2>บทคัดย่อ</h2>
                     <p style="text-align: justify; line-height: 1.8;">${thaiAbstract.replace(/\n/g, '<br>')}</p>
-                    <br><br>
-                    <h2>Abstract (English)</h2>
-                    <p style="text-align: justify; line-height: 1.8;">${englishAbstract.replace(/\n/g, '<br>')}</p>
                 </body>
                 </html>
             `;
